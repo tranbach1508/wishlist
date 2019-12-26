@@ -1,0 +1,37 @@
+.field-table button{
+    margin-right: 10px;
+}
+.field-table{
+    margin-bottom: 10px;
+}
+.mt-20{
+    margin-top: 20px;
+}
+.mr-5{
+    margin-right: 5px;
+}
+.pickColor{
+    width: 54px;
+    height: 36px;
+    border: 1px solid #c4cdd5;
+    border-radius: 5px;
+}
+.added_to_wishlist,.add_to_wishlist{
+    height: 40px;
+    color: white;
+    padding: 0 20px;
+    border: none;
+}
+.element_button_color{
+    position: relative;
+}
+.module_pick_color{
+    position: absolute;
+    z-index: 2;
+}
+.Polaris-Card{
+    overflow: visible !important;
+}
+.mt-10{
+    margin-top: 10px;
+}
