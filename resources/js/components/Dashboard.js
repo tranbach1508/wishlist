@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Card, Page,Layout,DisplayText} from '@shopify/polaris';
+import LineChart from './LineChart';
 
 class Dashboard extends Component {
     constructor(props){
@@ -44,6 +45,15 @@ class Dashboard extends Component {
                             <DisplayText size="extraLarge">{products}</DisplayText>
                         </Card>
                     </Layout.Section>
+                </Layout>
+                <Layout>
+                    <div className="mt-50">
+                        <Card title="Line chart" sectioned>
+                            <div className="mt-50">
+                                <LineChart></LineChart>
+                            </div>
+                        </Card>
+                    </div>
                 </Layout>
             </Page>
         );

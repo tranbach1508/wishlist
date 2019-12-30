@@ -235,9 +235,9 @@ class Setting extends Component {
                                             <ChoiceList
                                                 title="Company name"
                                                 choices={[
-                                                    { label: <i className="far fa-heart"></i>, value: 'icon' },
-                                                    { label: <button className="add_to_wishlist" style={{ backgroundColor: settings.add_wishlist_button_color }}>Add to Wishlist</button>, value: 'label' },
-                                                    { label: <button className="added_to_wishlist" style={{ backgroundColor: settings.add_wishlist_button_color }}><i className="far fa-heart mr-5"></i>Add to Wishlist</button>, value: 'icon_label' },
+                                                    { label: <i style={{color: settings.add_wishlist_button_color}} className="far fa-heart"></i>, value: 'icon' },
+                                                    { label: <button className="add_to_wishlist" style={{ backgroundColor: settings.add_wishlist_button_color }}>{translation.add_to_wishlist}</button>, value: 'label' },
+                                                    { label: <button className="added_to_wishlist" style={{ backgroundColor: settings.add_wishlist_button_color }}><i className="far fa-heart mr-5"></i>{translation.add_to_wishlist}</button>, value: 'icon_label' },
                                                 ]}
                                                 selected={[settings.button_wishlist]}
                                                 onChange={(value) => this.handleChangeButtonWishProduct(value)}

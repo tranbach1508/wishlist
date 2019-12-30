@@ -71,6 +71,17 @@ class ApiController extends Controller
         return response()->json(['actions'=>$actions,'users'=>$users,'products'=>$products]);
     }
 
+    public function month($month){
+        $shop_id = Shop::getCurrentShop()->id;
+        $products = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->distinct()
+        ->get()
+        ->groupBy('product_handle')
+        ->count();
+        return response()->json(['products'=>$products]);
+    }
+
     public function index(){
         return view('index');
     }
