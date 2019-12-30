@@ -44,7 +44,7 @@ class AuthController extends Controller
                 $shop->update([
                     'token' => $accessToken
                 ]);
-                return redirect('/index');
+                return redirect('/home');
             }else{
                 $shop = Shop::create([
                     'url' => $request_shop,
@@ -52,7 +52,7 @@ class AuthController extends Controller
                     'email' => '',
                     'settings' => ''
                 ]);
-                return redirect('/index');
+                return redirect('/home');
             }
         }elseif($request->has('shop')) {
             \PHPShopify\ShopifySDK::config($config);

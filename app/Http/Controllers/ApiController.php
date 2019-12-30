@@ -37,15 +37,6 @@ class ApiController extends Controller
         return response()->json(['products'=>$products]);
     }
 
-    public function statistical(){
-        $shop = Shop::getCurrentShop();
-        if(!$shop){
-            return response()->json(['error'=>"The shop is not exists"]);
-        }
-        $products = $shop->products()->where('list_type','wishlist')->groupBy('product_handle')->selectRaw('product_handle,count(*) as quantity')->get();
-        return response()->json(['top_wishlist'=>$products]);
-    }
-
     public function getRecentlyViewed($shopUrl,$customerId){
         $shop_id = Shop::where('url', $shopUrl)->first()->id;
         $products = Product::where('list_type','recently_viewed')->where('shop_id',$shop_id)->where('customer_id',$customerId)->get();
@@ -59,6 +50,25 @@ class ApiController extends Controller
         ->where('customer_id',$request->customer_id)
         ->where('list_type',$request->type)->delete();
         return response()->json(['message' =>'Success: Remove success']);
+    }
+
+    public function dashboard(){
+        $shop_id = Shop::getCurrentShop()->id;
+        $actions = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')->get()->count();
+        $users = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->distinct()
+        ->get()
+        ->groupBy('customer_id')
+        ->count();
+        $products = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->distinct()
+        ->get()
+        ->groupBy('product_handle')
+        ->count();
+        return response()->json(['actions'=>$actions,'users'=>$users,'products'=>$products]);
     }
 
     public function index(){

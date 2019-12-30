@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 Route::get('/authorize', 'AuthController@index');
 Route::get('/{pash}', 'ApiController@index')->where('path','.*');
+Route::post('/authorize', 'AuthController@index')->name('login');
 Route::group(['middleware' => 'cors','prefix' => 'api'], function(){
     Route::get('shop', 'AdminController@index');
     Route::post('settings/save', 'AdminController@save');
@@ -23,6 +24,7 @@ Route::group(['middleware' => 'cors','prefix' => 'api'], function(){
     Route::post('remove', 'ApiController@remove');
     Route::get('select/{shopUrl}/{customerId}', 'ApiController@select');
     Route::get('getRecentlyViewed/{shopUrl}/{customerId}', 'ApiController@getRecentlyViewed');
-    Route::get('statistical', 'ApiController@statistical');
+    Route::get('dashboard', 'ApiController@dashboard');
+    Route::get('dashboard', 'ApiController@dashboard');
 });
 

@@ -24,7 +24,7 @@
                                 <h2 class="Polaris-Heading">Enter your store's URL</h2>
                             </div>
                             <div class="Polaris-Card__Section">
-                                <form method="get" action="{{ secure_url('authorize') }}">
+                                <form method="get" action="{{ route('login') }}">
                                     {{ csrf_field() }}
                                     <div class="Polaris-FormLayout">
                                         <div class="Polaris-FormLayout__Item">

@@ -14,7 +14,13 @@
     customerEmail: {% if customer %}<?php echo'"{{customer.email}}"' ?>{% else %}null{% endif %},
     shopUrl: <?php echo'{{shop.permanent_domain | json}}' ?>,
     max_wishlist_products : {{$limit_wishlist_products_status}} === true ? {{$max_wishlist_products}} : 0,
+    carts_items: []
   }
+  jQuery.getJSON('/cart.js',function(data){
+    data.items.forEach(function(item){
+      globoWishlistConfig.carts_items.push(item.product_id);
+    })
+  });
 </script>
 <script src=<?php echo '"{{ "globo.wishlist_app.js" | asset_url}}"'; ?> defer="defer"></script>
 
