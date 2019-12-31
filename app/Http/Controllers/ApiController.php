@@ -148,6 +148,83 @@ class ApiController extends Controller
         return response()->json(['actions'=>$actions,'users'=>$users,'products'=>$products,'month'=>$month]);
     }
 
+    public function linechart(){
+        $shop_id = Shop::getCurrentShop()->id;
+        $actions1 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-01-01 00:00:00')
+        ->where('created_at','<=','2019-01-31 23:59:59')
+        ->get()
+        ->count();
+        $actions2 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-02-01 00:00:00')
+        ->where('created_at','<=','2019-02-29 23:59:59')
+        ->get()
+        ->count();
+        $actions3 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-03-01 00:00:00')
+        ->where('created_at','<=','2019-03-31 23:59:59')
+        ->get()
+        ->count();
+        $actions4 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-04-01 00:00:00')
+        ->where('created_at','<=','2019-04-30 23:59:59')
+        ->get()
+        ->count();
+        $actions5 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-05-01 00:00:00')
+        ->where('created_at','<=','2019-05-31 23:59:59')
+        ->get()
+        ->count();
+        $actions6 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-06-01 00:00:00')
+        ->where('created_at','<=','2019-06-30 23:59:59')
+        ->get()
+        ->count();
+        $actions7 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-07-01 00:00:00')
+        ->where('created_at','<=','2019-07-31 23:59:59')
+        ->get()
+        ->count();
+        $actions8 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-08-01 00:00:00')
+        ->where('created_at','<=','2019-08-31 23:59:59')
+        ->get()
+        ->count();
+        $actions9 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-09-01 00:00:00')
+        ->where('created_at','<=','2019-09-30 23:59:59')
+        ->get()
+        ->count();
+        $actions10 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-10-01 00:00:00')
+        ->where('created_at','<=','2019-10-31 23:59:59')
+        ->get()
+        ->count();
+        $actions11 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-11-01 00:00:00')
+        ->where('created_at','<=','2019-11-30 23:59:59')
+        ->get()
+        ->count();
+        $actions12 = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=','2019-12-01 00:00:00')
+        ->where('created_at','<=','2019-12-31 23:59:59')
+        ->get()
+        ->count();
+        return response()->json(['actions'=>[$actions1,$actions2,$actions3,$actions4,$actions5,$actions6,$actions7,$actions8,$actions9,$actions10,$actions11,$actions12]]);
+    }
+
     public function index(){
         return view('index');
     }

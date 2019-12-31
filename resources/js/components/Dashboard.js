@@ -8,7 +8,7 @@ class Dashboard extends Component {
         this.state = {
             actions: 0,
             users: 0,
-            products: 0,
+            products: 0
         }
     }
 
@@ -21,7 +21,7 @@ class Dashboard extends Component {
                 users:  count.users,
                 products:  count.products,
             })
-        })
+        });
     }
 
 

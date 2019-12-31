@@ -10,55 +10,54 @@ class LineChart extends Component {
         stroke: {
           curve: 'smooth'
         },
-        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       },
       series: [
         {
           name: 'Actions',
           type: 'line',
-          data: [10,0,25,30,45,50,33,55,76,87,23,45]
-        }, 
+          data: [10, 0, 25, 30, 45, 50, 33, 55, 76, 87, 23, 45]
+        },
         {
           name: 'Users',
           type: 'line',
-          data: [11,22,33,45,67,32,78,43,76,45,87,56]
+          data: [11, 22, 33, 45, 67, 32, 78, 43, 76, 45, 87, 56]
         },
         {
           name: 'Products',
           type: 'line',
-          data: [45,65,24,31,48,57,98,45,62,46,79,84]
+          data: [45, 65, 24, 31, 48, 57, 98, 45, 62, 46, 79, 84]
         }
       ]
     };
   }
 
-  componentDidMount(){
+  componentWillMount() {
     let self = this;
     var months = this.state.options.labels;
-    var {series} = this.state;
-    for(var i=0;i<months.length;i++){
-        jQuery.getJSON('/wishlist_app/public/api/'+months[i],function(data){
-            series[0].data[i] = data.actions;
-            series[1].data[i] = data.users;
-            series[2].data[i] = data.products;
-            
-        })
-    }
+    var { series } = this.state;
+    jQuery.getJSON('/wishlist_app/public/api/linechart', function (data) {
+      for (var i = 0; i < months.length; i++) {
+        series[0].data[i] = data.actions[i];
+      }
+    })
     self.setState({
       series: series
     })
   }
 
   render() {
+    var { series } = this.state;
+    console.log(series);
     return (
       <div className="app">
         <div className="row">
           <div className="mixed-chart">
             <Chart
-                options={this.state.options}
-                series={this.state.series}
-                type="line"
-                width="914"
+              options={this.state.options}
+              series={this.state.series}
+              type="line"
+              width="914"
             />
           </div>
         </div>
