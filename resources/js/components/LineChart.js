@@ -16,7 +16,7 @@ class LineChart extends Component {
         {
           name: 'Actions',
           type: 'line',
-          data: [10,20,25,30,45,50,33,55,76,87,23,45]
+          data: [10,0,25,30,45,50,33,55,76,87,23,45]
         }, 
         {
           name: 'Users',
@@ -30,6 +30,23 @@ class LineChart extends Component {
         }
       ]
     };
+  }
+
+  componentDidMount(){
+    let self = this;
+    var months = this.state.options.labels;
+    var {series} = this.state;
+    for(var i=0;i<months.length;i++){
+        jQuery.getJSON('/wishlist_app/public/api/'+months[i],function(data){
+            series[0].data[i] = data.actions;
+            series[1].data[i] = data.users;
+            series[2].data[i] = data.products;
+            
+        })
+    }
+    self.setState({
+      series: series
+    })
   }
 
   render() {

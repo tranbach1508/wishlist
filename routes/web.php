@@ -25,7 +25,6 @@ Route::group(['middleware' => 'cors','prefix' => 'api'], function(){
     Route::get('select/{shopUrl}/{customerId}', 'ApiController@select');
     Route::get('getRecentlyViewed/{shopUrl}/{customerId}', 'ApiController@getRecentlyViewed');
     Route::get('dashboard', 'ApiController@dashboard');
-    Route::get('dashboard', 'ApiController@dashboard');
     Route::get('/{month}', 'ApiController@month');
 });
 

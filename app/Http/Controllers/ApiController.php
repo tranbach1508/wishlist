@@ -72,14 +72,80 @@ class ApiController extends Controller
     }
 
     public function month($month){
+        switch($month){
+            case 'Jan':
+                $from = '2019-01-01 00:00:00';
+                $to = '2019-01-31 23:59:59';
+                break;
+            case 'Feb':
+                $from = '2019-02-01 00:00:00';
+                $to = '2019-02-29 23:59:59';
+                break;
+            case 'Mar':
+                $from = '2019-03-01 00:00:00';
+                $to = '2019-03-31 23:59:59';
+                break;
+            case 'Apr':
+                $from = '2019-04-01 00:00:00';
+                $to = '2019-04-30 23:59:59';
+                break;
+            case 'May':
+                $from = '2019-05-01 00:00:00';
+                $to = '2019-05-31 23:59:59';
+                break;
+            case 'Jun':
+                $from = '2019-06-01 00:00:00';
+                $to = '2019-06-30 23:59:59';
+                break;
+            case 'Jul':
+                $from = '2019-07-01 00:00:00';
+                $to = '2019-07-31 23:59:59';
+                break;
+            case 'Aug':
+                $from = '2019-08-01 00:00:00';
+                $to = '2019-08-31 23:59:59';
+                break;
+            case 'Sep':
+                $from = '2019-09-01 00:00:00';
+                $to = '2019-09-30 23:59:59';
+                break;
+            case 'Oct':
+                $from = '2019-10-01 00:00:00';
+                $to = '2019-10-31 23:59:59';
+                break;
+            case 'Nov':
+                $from = '2019-11-01 00:00:00';
+                $to = '2019-11-30 23:59:59';
+                break;
+            case 'Dec':
+                $from = '2019-12-01 00:00:00';
+                $to = '2019-12-31 23:59:59';
+                break;
+        }
         $shop_id = Shop::getCurrentShop()->id;
+        $actions = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=',$from)
+        ->where('created_at','<=',$to)
+        ->get()
+        ->count();
+        $users = Product::where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>=',$from)
+        ->where('created_at','<=',$to)
+        ->distinct()
+        ->get()
+        ->groupBy('customer_id')
+        ->count();
         $products = Product::where('shop_id',$shop_id)
         ->where('list_type','wishlist')
+        ->where('created_at','>=',$from)
+        ->where('created_at','<=',$to)
         ->distinct()
         ->get()
         ->groupBy('product_handle')
         ->count();
-        return response()->json(['products'=>$products]);
+        return response()->json(['actions'=>$actions,'users'=>$users,'products'=>$products,'month'=>$month]);
     }
 
     public function index(){

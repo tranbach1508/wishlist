@@ -49,7 +49,7 @@ class Dashboard extends Component {
                 <Layout>
                     <div className="mt-50">
                         <Card title="Line chart" sectioned>
-                            <div className="mt-50">
+                            <div>
                                 <LineChart></LineChart>
                             </div>
                         </Card>
