@@ -1,63 +1,46 @@
-import React, { Component } from 'react';
-import {Card, Page,Layout,DisplayText} from '@shopify/polaris';
-import LineChart from './LineChart';
+import React, {useCallback, useState} from 'react';
+import {Card, Tabs} from '@shopify/polaris';
+import Total from './Total';
+import ListData from './ListData';
 
-class Dashboard extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            actions: 0,
-            users: 0,
-            products: 0
-        }
-    }
+export default function Dashboard() {
+  const [selected, setSelected] = useState(0);
 
-    componentWillMount(){
-        let self = this;
-        jQuery.getJSON("http://localhost:88/wishlist_app/public/api/dashboard",function(data){
-            var count = data;
-            self.setState({
-                actions: count.actions,
-                users:  count.users,
-                products:  count.products,
-            })
-        });
-    }
+  const handleTabChange = useCallback(
+    (selectedTabIndex) => setSelected(selectedTabIndex),
+    [],
+  );
 
-
-    render() {
-        var {actions,users,products} = this.state;
-        return (
-            <Page title="Dashboard">
-                <Layout>
-                    <Layout.Section oneThird>
-                        <Card title="Wishlist Actions" sectioned>
-                            <DisplayText size="extraLarge">{actions}</DisplayText>
-                        </Card>
-                    </Layout.Section>
-                    <Layout.Section oneThird>
-                        <Card title="Users" sectioned>
-                            <DisplayText size="extraLarge">{users}</DisplayText>
-                        </Card>
-                    </Layout.Section>
-                    <Layout.Section oneThird>
-                        <Card title="Products" sectioned>
-                            <DisplayText size="extraLarge">{products}</DisplayText>
-                        </Card>
-                    </Layout.Section>
-                </Layout>
-                <Layout>
-                    <div className="mt-50">
-                        <Card title="Line chart" sectioned>
-                            <div>
-                                <LineChart></LineChart>
-                            </div>
-                        </Card>
-                    </div>
-                </Layout>
-            </Page>
-        );
-    }
+  const tabs = [
+    {
+      id: 'all-customers',
+      content: 'Total',
+      component: <Total></Total>,
+      accessibilityLabel: 'All customers',
+      panelID: 'all-customers-content',
+    },
+    {
+      id: 'accepts-marketing',
+      content: 'List data',
+      component: <ListData></ListData>,
+      panelID: 'accepts-marketing-content',
+    },
+    {
+      id: 'repeat-customers',
+      content: 'Repeat customers',
+      component: 'Repeat customers',
+      panelID: 'repeat-customers-content',
+    },
+    {
+      id: 'prospects',
+      content: 'Prospects',
+      component: 'Prospects',
+      panelID: 'prospects-content',
+    },
+  ];
+  return (
+      <Tabs tabs={tabs} selected={selected} onSelect={handleTabChange}>
+          {tabs[selected].component}
+      </Tabs>
+  );
 }
-
-export default Dashboard;
