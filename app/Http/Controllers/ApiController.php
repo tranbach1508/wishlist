@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Product;
 use App\Shop;
+use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller
 {
@@ -365,11 +366,25 @@ class ApiController extends Controller
 
     public function listdata(){
         $shop_id = Shop::getCurrentShop()->id;
+        $shop_url = Shop::getCurrentShop()->url;
         $items = Product::select('customer_email','created_at','product_handle')
         ->where('shop_id',$shop_id)
         ->where('list_type','wishlist')
         ->get();
-        return response()->json(['items'=>$items]);
+        return response()->json(['items'=>$items,'shop_url'=>$shop_url]);
+    }
+
+    public function toptrending($from,$to){
+        $shop_id = Shop::getCurrentShop()->id;
+        $shop_url = Shop::getCurrentShop()->url;
+        $items = Product::select('product_handle',DB::raw('count(*) as count'))
+        ->where('shop_id',$shop_id)
+        ->where('list_type','wishlist')
+        ->where('created_at','>',$from)
+        ->where('created_at','<=',$to)
+        ->groupBy('product_handle')
+        ->get();
+        return response()->json(['items'=>$items,'shop_url'=>$shop_url]);
     }
 
     public function index()

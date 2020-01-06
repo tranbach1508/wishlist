@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Card, Tabs} from '@shopify/polaris';
 import Total from './Total';
 import ListData from './ListData';
+import TopTrending from './TopTrending';
 
 export default function Dashboard() {
   const [selected, setSelected] = useState(0);
@@ -13,22 +14,22 @@ export default function Dashboard() {
 
   const tabs = [
     {
-      id: 'all-customers',
+      id: 'total',
       content: 'Total',
       component: <Total></Total>,
       accessibilityLabel: 'All customers',
       panelID: 'all-customers-content',
     },
     {
-      id: 'accepts-marketing',
+      id: 'listdata',
       content: 'List data',
       component: <ListData></ListData>,
       panelID: 'accepts-marketing-content',
     },
     {
-      id: 'repeat-customers',
-      content: 'Repeat customers',
-      component: 'Repeat customers',
+      id: 'trending',
+      content: 'Top trending',
+      component: <TopTrending></TopTrending>,
       panelID: 'repeat-customers-content',
     },
     {

@@ -27,5 +27,6 @@ Route::group(['middleware' => 'cors','prefix' => 'api'], function(){
     Route::get('dashboard', 'ApiController@dashboard');
     Route::get('linechart', 'ApiController@linechart');
     Route::get('listdata', 'ApiController@listdata');
+    Route::get('toptrending/{from}/{to}', 'ApiController@toptrending');
 });
 

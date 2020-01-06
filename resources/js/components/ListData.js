@@ -11,29 +11,21 @@ class componentName extends Component {
     
     componentWillMount() {
         let self = this;
+        var {row}= this.state;
+
         jQuery.getJSON("/wishlist_app/public/api/listdata", function (data) {
-            self.setState({
-                row: data.items
+            data.items.forEach(function(item){
+                jQuery.getJSON("https://"+data.shop_url+"/products/"+item.product_handle+".js", function(product) {
+                    row.push([product.title,item.customer_email,item.created_at]);
+                    self.setState({
+                        row: row
+                    })
+                  } );
             })
         });
     }
-
-    handleData(){
-        var c = [];
-        this.state.row.forEach(function(item){
-            jQuery.getJSON("/products/"+item.product_handle+".js", function (product) {
-                listdata.push([
-                    product.title,
-                    item.created_at,
-                    item.customer_email
-                ]);
-            });
-        })
-        console.log(listdata);
-    }
     
     render() {
-        this.handleData;
         return (
             <Page title="Sales by product">
                 <Card>
@@ -48,7 +40,7 @@ class componentName extends Component {
                             'Customer Email',
                             'Action at',
                         ]}
-                        rows={[2,3,4]}
+                        rows={this.state.row}
                         // totals={['', '', '', 255, '$155,830.00']}
                         showTotalsInFooter
                     />
