@@ -1,35 +1,35 @@
 import React, { Component } from 'react';
-import { Card, Page, DataTable, Popover, ActionList, Button } from '@shopify/polaris';
+import { Card, Page, DataTable, ActionList, Button, Popover } from '@shopify/polaris';
 
-class componentName extends Component {
+class TopTrending extends Component {
     constructor(props) {
         super(props);
         this.state = {
             row: [],
-            active: true,
+            active: false,
             time: "all"
         }
     }
 
-    toogleActive = () => {
+    toggleActive = () => {
         this.setState({
-            active: !active
+            active: !this.state.active
         })
     }
 
-    activator = () => {
-        <Button onClick={toggleActive} disclosure>
+    activator = (
+        <Button onClick={this.toggleActive} disclosure>
             More actions
         </Button>
-    }
+    );
 
-    handleAllTime = () =>{
+    handleAllTime = () => {
         this.setState({
             time: "all"
         })
     }
 
-    handleNearestMonth = () =>{
+    handleNearestMonth = () => {
         this.setState({
             time: "nearest month"
         })
@@ -37,10 +37,9 @@ class componentName extends Component {
 
     componentWillMount() {
         let self = this;
-        var { row } = this.state;
-        jQuery.getJSON("/wishlist_app/public/api/toptrending", function (data) {
+        var { row, time } = this.state;
+        jQuery.getJSON("/wishlist_app/public/api/toptrending/" + time, function (data) {
             data.items.forEach(function (item) {
-                console.log(item);
                 jQuery.getJSON("https://" + data.shop_url + "/products/" + item.product_handle + ".js", function (product) {
                     row.push([product.title, item.count]);
                     self.setState({
@@ -52,10 +51,10 @@ class componentName extends Component {
     }
 
     render() {
-        var {active} = this.state;
+        var { active } = this.state;
         return (
             <Page title="Sales by product">
-                <Card>
+                <div className="buttonLimitTopTrending">
                     <Popover active={active} activator={this.activator} onClose={this.toggleActive}>
                         <ActionList
                             items={[
@@ -70,6 +69,9 @@ class componentName extends Component {
                             ]}
                         />
                     </Popover>
+                </div>
+
+                <Card>
                     <DataTable
                         columnContentTypes={[
                             'text',
@@ -88,4 +90,4 @@ class componentName extends Component {
     }
 }
 
-export default componentName;
+export default TopTrending;

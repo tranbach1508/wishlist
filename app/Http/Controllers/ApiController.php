@@ -374,7 +374,14 @@ class ApiController extends Controller
         return response()->json(['items'=>$items,'shop_url'=>$shop_url]);
     }
 
-    public function toptrending($from,$to){
+    public function toptrending($time){
+        if($time){
+            $from = "2019-01-01";
+            $to = date("Y-m-d");
+        }else{
+            $to = date("Y-m-d");
+            $from = date('Y-m-d', strtotime($to . ' - 1 month'));
+        }
         $shop_id = Shop::getCurrentShop()->id;
         $shop_url = Shop::getCurrentShop()->url;
         $items = Product::select('product_handle',DB::raw('count(*) as count'))
