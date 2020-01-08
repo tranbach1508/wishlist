@@ -83,4 +83,11 @@ $addToWishlistButtonColor: {{$addToWishlistButtonColor}};
 .mt-20{
   margin-top: 20px;
 }
+.add_to_wishlist{
+  height: 40px;
+  color: white;
+  padding: 0 20px;
+  border: none;
+  background-color: $addToWishlistButtonColor;
+}
 

@@ -15,14 +15,31 @@
   $isDisplayTitle = $field->isDisplayTitle == true ? "" : "none";
   $isDisplayPrice = $field->isDisplayPrice == true ? "" : "none";
   $isDisplayAction = $field->isDisplayAction == true ? "" : "none";
+  $button_wishlist = $settings->button_wishlist;
 ?>
 
-var table = '<table class="table table-hover"><thead><tr><th style="display: {{$isDisplayImage}}">Image</th><th style="display: {{$isDisplayTitle}}">{{$title}}</th><th style="display: {{$isDisplayPrice}}">{{$price}}</th><th style="display: {{$isDisplayAction}}">{{$action}}</th></tr></thead><tbody id="wishproductlist"></tbody></table>'
+var table = '<table class="table table-hover"><thead><tr><th style="display: {{$isDisplayImage}}">Image</th><th style="display: {{$isDisplayTitle}}">{{$title}}</th><th style="display: {{$isDisplayPrice}}">{{$price}}</th><th style="display: {{$isDisplayAction}}">{{$action}}</th></tr></thead><tbody id="wishproductlist"></tbody></table>';
+var addToWishlist = '{{$addToWishlist}}';
     $('#table_wishlist').append(table);
     $('.add_to_wishlist_icon_label button.add_to_wishlist').html('<i class="far fa-heart mr-10"></i>{{$addToWishlist}}');
     $('.add_to_wishlist_label button.add_to_wishlist').html('{{$addToWishlist}}');
-
+var addwishlist_button = '<?php
+    if($button_wishlist == "icon"){
+      echo '<div><div><i class="far fa-heart"></i></div></div>';
+    }else if($button_wishlist == "label"){
+      echo '<div><div><button class="add_to_wishlist">'.$addToWishlist.'</button></div></div>';
+    }else{
+      echo '<div><div><button class="add_to_wishlist"><i class="far fa-heart" style="margin-right: 5px"></i>'.$addToWishlist.'</button></div></div>';
+    }
+ ?>';
 // wishlist
+
+<?php 
+  if($theme['theme_store_id']==796){
+    echo '$(".product-form__item--submit").append(addwishlist_button);';
+  }
+?>
+
 $(document).on('click','.add_to_wishlist',function(e){
     e.preventDefault();
     var pro_handle = $(this).attr('data-handle');
