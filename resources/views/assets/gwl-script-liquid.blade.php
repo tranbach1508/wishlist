@@ -3,6 +3,7 @@
   $limit_wishlist_products_status =  $settings->limit_wishlist_products_status == false ? "false" : "true";
   $max_wishlist_products = (int) $settings->limit_wishlist_products;
 ?>
+<?php echo '<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>'; ?>
 <?php echo "{{ 'globo.wishlist_app.scss.css' | asset_url | stylesheet_tag }}"; ?>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.css" >

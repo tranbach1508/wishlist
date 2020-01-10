@@ -25,11 +25,11 @@ var addToWishlist = '{{$addToWishlist}}';
     $('.add_to_wishlist_label button.add_to_wishlist').html('{{$addToWishlist}}');
 var addwishlist_button = '<?php
     if($button_wishlist == "icon"){
-      echo '<div><div><i class="far fa-heart"></i></div></div>';
+      echo '<div><div><button id="buttonAddToWishlistIcon{{product.handle}}" class="add_to_wishlist_icon add_to_wishlist" data-button="icon" data-handle="{{product.handle}}"><i class="far fa-heart"></i></button></i></div></div>';
     }else if($button_wishlist == "label"){
-      echo '<div><div><button class="add_to_wishlist">'.$addToWishlist.'</button></div></div>';
+      echo '<div><div><button id="buttonAddToWishlistLabel{{product.handle}}" class="add_to_wishlist" data-button="label"  data-handle="{{product.handle}}">'.$addToWishlist.'</button></div></div>';
     }else{
-      echo '<div><div><button class="add_to_wishlist"><i class="far fa-heart" style="margin-right: 5px"></i>'.$addToWishlist.'</button></div></div>';
+      echo '<div><div><button id="buttonAddToWishlistIconLabel{{product.handle}}" class="add_to_wishlist" data-button="icon_label" data-handle="{{product.handle}}"><i class="far fa-heart mr-10"></i>'.$addToWishlist.'</button></div></div>';
     }
  ?>';
 // wishlist
@@ -37,15 +37,17 @@ var addwishlist_button = '<?php
 <?php 
   if($theme['theme_store_id']==796){
     echo '$(".product-form__item--submit").append(addwishlist_button);';
+  }elseif($theme['theme_store_id']==578){
+    echo '$(".grid__item .product-single__cart-submit-wrapper").append(addwishlist_button);';
   }
 ?>
 
 $(document).on('click','.add_to_wishlist',function(e){
     e.preventDefault();
     var pro_handle = $(this).attr('data-handle');
-    var customer_id = $(this).attr('data-customerId');
-    var customer_email = $(this).attr('data-customerEmail');
-    var shop_url = $(this).attr('data-shopUrl').slice(8);
+    var customer_id = globoWishlistConfig.customerId;
+    var customer_email = globoWishlistConfig.customerEmail;
+    var shop_url = globoWishlistConfig.shopUrl;
     if(globoWishlistConfig.customerId !== null){
       const product = {
         customer_id : globoWishlistConfig.customerId,
