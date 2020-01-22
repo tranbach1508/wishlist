@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ChoiceList, TextField, Layout, Card, FormLayout, PageActions, Form, Select,Page } from '@shopify/polaris';
+import { ChoiceList, TextField, Layout, Card, FormLayout, PageActions, Form, Select,Page,Button } from '@shopify/polaris';
 import { SketchPicker } from 'react-color';
 import 'antd/dist/antd.css';
 import axios from 'axios';
@@ -10,7 +10,6 @@ class Setting extends Component {
         super(props);
         this.state = {
             settings: {
-                // goToCart: false,
                 limit_wishlist_products_status: false,
                 limit_wishlist_products: 6,
                 button_wishlist: 'icon',
@@ -21,7 +20,6 @@ class Setting extends Component {
                 isDisplayImage: true,
                 isDisplayTitle: true,
                 isDisplayPrice: true,
-                // isDisplayAvailability: true,
                 isDisplayAction: true
             },
             translation: {
@@ -33,11 +31,6 @@ class Setting extends Component {
                 action: 'Action',
                 add_to_cart: 'Add to cart',
                 added_to_cart: 'Added to cart',
-                // read_more: '',
-                // select_options: '',
-                // availability: '',
-                // instock: '',
-                // out_of_stock: ''
             },
             change: false,
             isDisplayPickColor: {
@@ -59,7 +52,7 @@ class Setting extends Component {
                     field: state.field,
                     translation: state.translation,
                     list_themes: data.themes,
-                    theme: data.themes[0].id
+                    theme: state.theme
                 })
             }else{
                 self.setState({
@@ -69,12 +62,6 @@ class Setting extends Component {
             }
         })
     }
-
-    // handleGoToCart = () => {
-    //     var { settings } = this.state;
-    //     settings.goToCart = !settings.goToCart;
-    //     this.setState({ settings, change: true });
-    // }
 
     handleLimitWishlist = (value) => {
         var { settings } = this.state;
@@ -186,7 +173,7 @@ class Setting extends Component {
         }
 
         return (
-            <Page title="Setting">
+            <Page title="Setting" fullWidth>
                 <Form onSubmit={this.onSubmit} method="post">
                     <div className="mt-20">
                         <Layout>
@@ -198,6 +185,7 @@ class Setting extends Component {
                                         onChange={(value) => this.handleChooseTheme(value)}
                                         value={theme}
                                     />
+                                    <div className="mt-10 text-align-right"><Button onClick={this.onSubmit}>Install</Button></div>
                                 </Card>
                             </Layout.AnnotatedSection>
                         </Layout>
@@ -210,13 +198,6 @@ class Setting extends Component {
                             >
                                 <Card sectioned>
                                     <FormLayout>
-                                        {/* <FormLayout.Group condensed>
-                                            <Checkbox
-                                                label="Go to cart directly"
-                                                checked={settings.goToCart}
-                                                onChange={this.handleGoToCart}
-                                            />
-                                        </FormLayout.Group> */}
                                         <FormLayout.Group condensed>
                                             <ChoiceList
                                                 title="Limit wishlist products"
@@ -288,10 +269,6 @@ class Setting extends Component {
                                         <Switch checked={field.isDisplayPrice} onChange={(value) => this.onChangeField(value, 'isDisplayPrice')} />
                                         <label>Price</label>
                                     </div>
-                                    {/* <div className="field-table">
-                                        <Switch checked={field.isDisplayAvailability} onChange={(value) => this.onChangeField(value, 'isDisplayAvailability')} />
-                                        <label>Availability</label>
-                                    </div> */}
                                     <div className="field-table">
                                         <Switch checked={field.isDisplayAction} onChange={(value) => this.onChangeField(value, 'isDisplayAction')} />
                                         <label>Action</label>
@@ -320,15 +297,6 @@ class Setting extends Component {
                                             <TextField value={translation.add_to_cart} label="Add to cart" onChange={(value) => this.onChangeTranslation(value, 'add_to_cart')} />
                                             <TextField value={translation.added_to_cart} label="Added to cart" onChange={(value) => this.onChangeTranslation(value, 'added_to_cart')} />
                                         </FormLayout.Group>
-                                        {/* <FormLayout.Group condensed>
-                                            <TextField value={translation.read_more} label="Read more" onChange={(value) => this.onChangeTranslation(value, 'read_more')} />
-                                            <TextField value={translation.select_options} label="Select options" onChange={(value) => this.onChangeTranslation(value, 'select_options')} />
-                                        </FormLayout.Group> */}
-                                        {/* <TextField value={translation.availability} label="Availability" onChange={(value) => this.onChangeTranslation(value, 'availability')} /> */}
-                                        {/* <FormLayout.Group condensed>
-                                            <TextField value={translation.instock} label="In stock" onChange={(value) => this.onChangeTranslation(value, 'instock')} />
-                                            <TextField value={translation.out_of_stock} label="Out of stock" onChange={(value) => this.onChangeTranslation(value, 'out_of_stock')} />
-                                        </FormLayout.Group> */}
                                     </FormLayout>
                                 </Card>
                             </Layout.AnnotatedSection>

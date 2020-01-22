@@ -13,6 +13,7 @@ class AdminController extends Controller
             return response()->json(['error'=>"The shop is not exists"]);
         }
         return response()->json([
+            'theme_live' =>$shop->theme,
             'settings' => $shop->settings,
             'themes' =>$shop->getThemes()
         ]);

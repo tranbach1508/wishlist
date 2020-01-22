@@ -23,24 +23,83 @@ var addToWishlist = '{{$addToWishlist}}';
     $('#table_wishlist').append(table);
     $('.add_to_wishlist_icon_label button.add_to_wishlist').html('<i class="far fa-heart mr-10"></i>{{$addToWishlist}}');
     $('.add_to_wishlist_label button.add_to_wishlist').html('{{$addToWishlist}}');
-var addwishlist_button = '<?php
+var url_page = location.href;
+var product_handle = url_page.slice(url_page.lastIndexOf("/")+1);
+var icon = '<div><button type="button" id="buttonAddToWishlistIcon'+product_handle+'" class="add_to_wishlist_icon add_to_wishlist" data-button="icon" data-handle='+product_handle+'><i class="far fa-heart"></i></button></i></div>';
+var label = '<div><button type="button" id="buttonAddToWishlistLabel'+product_handle+'" class="add_to_wishlist_label add_to_wishlist" data-button="label"  data-handle='+product_handle+'>'+addToWishlist+'</button></div>';
+var icon_label = '<div><button type="button" id="buttonAddToWishlistIconLabel'+product_handle+'" class="add_to_wishlist_icon_label add_to_wishlist" data-button="icon_label" data-handle='+product_handle+'><i class="far fa-heart" style="margin-right: 5px"></i>'+addToWishlist+'</button></div>';
+var addwishlist_button = <?php
     if($button_wishlist == "icon"){
-      echo '<div><div><button id="buttonAddToWishlistIcon{{product.handle}}" class="add_to_wishlist_icon add_to_wishlist" data-button="icon" data-handle="{{product.handle}}"><i class="far fa-heart"></i></button></i></div></div>';
+      echo 'icon';
     }else if($button_wishlist == "label"){
-      echo '<div><div><button id="buttonAddToWishlistLabel{{product.handle}}" class="add_to_wishlist" data-button="label"  data-handle="{{product.handle}}">'.$addToWishlist.'</button></div></div>';
+      echo 'label';
     }else{
-      echo '<div><div><button id="buttonAddToWishlistIconLabel{{product.handle}}" class="add_to_wishlist" data-button="icon_label" data-handle="{{product.handle}}"><i class="far fa-heart mr-10"></i>'.$addToWishlist.'</button></div></div>';
+      echo 'icon_label';
     }
- ?>';
+ ?>;
 // wishlist
+
+var symbol_wishlist = '<div class="wishlist_module"><div class="wl_icon"><i class="fas fa-heart"></i></div><div class="wl_label"><p>Wishlist</p></div></div>';
+$('body').append(symbol_wishlist);
+var module_wishlist = '<div class="wl-overlayout"></div><div class="gl-wishlist"><div class="gl-header"><button class="close-gl-wishlist"><i class="fas fa-times"></i></button><p>List product</p></div><div class="gl-body"></div></div>';
+$('body').append(module_wishlist);
+var message_wishlist = '<div class="gl-wishlist-message"><div class="gl-message-header">Add successful</div><div class="gl-message-body"><div class="gl-image"><img src="//cdn.shopify.com/s/files/1/0266/3566/5511/products/pro3_300x300.jpg?v=1571821808"/></div><div class="gl-info"><p class="gl-title">Product title</p><p class="gl-price">Product price</p></div></div><button class="close-message-wishlist"><i class="fas fa-times"></i></button></div>';
+$('body').append(message_wishlist);
+$('.wishlist_module').click(function(){
+  $('.gl-wishlist').animate({
+    right: '0',
+  });
+  $('.wl-overlayout').css({
+    display:'block',
+  });
+});
+$('.close-gl-wishlist').click(function(){
+  $('.gl-wishlist').animate({
+    right: '-25%',
+  });
+  $('.wl-overlayout').css({
+    display:'none',
+  });
+});
+$('.close-message-wishlist').click(function(){
+  $('.gl-wishlist-message').animate({
+    bottom: '-200px',
+  });
+});
+
 
 <?php 
   if($theme['theme_store_id']==796){
     echo '$(".product-form__item--submit").append(addwishlist_button);';
+    echo 'var item_in_prolist = $(".grid__item>.grid-view-item>a.grid-view-item__link");';
   }elseif($theme['theme_store_id']==578){
     echo '$(".grid__item .product-single__cart-submit-wrapper").append(addwishlist_button);';
+    echo 'var item_in_prolist = $(".grid>.grid__item>.supports-js>a.product__image-wrapper");';
+  }elseif($theme['theme_store_id']==766){
+    echo '$(".grid__item .product__form--add-to-cart").append(addwishlist_button);';
+    echo 'var item_in_prolist = $(".product-item>.product-item__link-wrapper>a.product-item__link");';
+  }elseif($theme['theme_store_id']==775){
+    echo '$(".product-form .product-form__item--submit").append(addwishlist_button);';
+    echo 'var item_in_prolist = $(".grid__item>a.product-card");';
+  }elseif($theme['theme_store_id']==679){
+    echo '$(".addToCartForm .payment-buttons").append(addwishlist_button);';
+    echo 'var item_in_prolist = $(".grid-item>a.product-grid-item");';
+  }elseif($theme['theme_store_id']==829){
+    echo '$(".product__form-wrapper .product-form").append(addwishlist_button);';
+    echo 'var item_in_prolist = $(".grid__item>.card>a.card__wrapper");';
+  }elseif($theme['theme_store_id']==730){
+    echo '$(".product-single__meta .product-single__form").append(addwishlist_button);';
+    echo 'var item_in_prolist = $(".grid__item>div.grid-product__wrapper>div.grid-product__image-wrapper>a.grid-product__image-link");';
+  }elseif($theme['theme_store_id']==380){
+    echo '$(".product-single .product-form--wide").append(addwishlist_button);';
+    echo 'var item_in_prolist = $(".grid__item>div>a.grid-link");';
   }
 ?>
+item_in_prolist.each(function(ele){
+  var href_pro_productlist = $(this).attr("href");
+  var pro_handle_in_listproduct = href_pro_productlist != null ? href_pro_productlist.slice(href_pro_productlist.lastIndexOf("/")+1) : "";
+  $(this).parent().append('<button id="buttonAddToWishlistIcon'+pro_handle_in_listproduct+'" class="add_to_wishlist add_wishlist_product_list" data-button="icon" data-handle="'+pro_handle_in_listproduct+'"><i class="far fa-heart"></i></button>');
+})
 
 $(document).on('click','.add_to_wishlist',function(e){
     e.preventDefault();
@@ -71,6 +130,16 @@ $(document).on('click','.add_to_wishlist',function(e){
           icon.css('color','{{$addedToWishlistButtonColor}}');
           icon_label.html('<i class="fas fa-heart mr-10"></i>{{$addedToWishlist}}');
           label.html('{{$addedToWishlist}}');
+          jQuery.getJSON('/products/'+pro_handle+'.js',function(product){
+            $('.gl-wishlist-message .gl-message-body .gl-info .gl-title').html(product.title);
+            $('.gl-wishlist-message .gl-message-body .gl-info .gl-price').html(product.price);
+            $('.gl-wishlist-message .gl-message-body .gl-image img').attr('src',product.featured_image);
+            var item1 = '<li id='+"item-"+product_handle+' class="gl-item"> <div class="item-image"> <img src="'+product.featured_image+'"/> </div><div class="item-title">'+product.title+'</div></li>';
+            $('.gl-body').append(item1);
+          })
+          $('.gl-wishlist-message').animate({
+            bottom: '5px',
+          });
         }else{
           $.ajax({
             url : globoWishlistConfig.api+"remove",
@@ -83,6 +152,7 @@ $(document).on('click','.add_to_wishlist',function(e){
             icon.css('color','{{$addToWishlistButtonColor}}');
             icon_label.html('<i class="far fa-heart mr-10"></i>{{$addToWishlist}}');
             label.html('{{$addToWishlist}}');
+            $('#item-'+pro_handle).remove();
           });
         }
       });
@@ -90,7 +160,7 @@ $(document).on('click','.add_to_wishlist',function(e){
       var label = $('#buttonAddToWishlistLabel'+pro_handle);
       var icon = $('#buttonAddToWishlistIcon'+pro_handle);
       var icon_label = $('#buttonAddToWishlistIconLabel'+pro_handle);
-      wishlist = JSON.parse(localStorage.getItem('wishlist'));
+      wishlist = JSON.parse(localStorage.getItem('wishlist')) != null ? JSON.parse(localStorage.getItem('wishlist')) : [];
       if(wishlist.indexOf(pro_handle) == -1){
         wishlist.push(pro_handle);
         icon.html('<i class="fas fa-heart"></i>');
@@ -99,6 +169,16 @@ $(document).on('click','.add_to_wishlist',function(e){
         icon.css('color','#bd10e0');
         icon_label.html('<i class="fas fa-heart mr-10"></i>{{$addToWishlist}}');
         label.html('{{$addToWishlist}}');
+        jQuery.getJSON('/products/'+pro_handle+'.js',function(product){
+          $('.gl-wishlist-message .gl-message-body .gl-info .gl-title').html(product.title);
+          $('.gl-wishlist-message .gl-message-body .gl-info .gl-price').html(product.price);
+          $('.gl-wishlist-message .gl-message-body .gl-image img').attr('src',product.featured_image);
+          var item1 = '<li id='+"item-"+product_handle+' class="gl-item"> <div class="item-image"> <img src="'+product.featured_image+'"/> </div><div class="item-title">'+product.title+'</div></li>';
+          $('.gl-body').append(item1);
+        })
+        $('.gl-wishlist-message').animate({
+          bottom: '5px',
+        });
       }else{
         wishlist.splice(wishlist.indexOf(pro_handle),1);
         icon.html('<i class="far fa-heart"></i>');
@@ -107,15 +187,16 @@ $(document).on('click','.add_to_wishlist',function(e){
         icon.css('color','#f8e71c');
         icon_label.html('<i class="far fa-heart mr-10"></i>{{$addToWishlist}}');
         label.html('{{$addToWishlist}}');
+        $('#item-'+pro_handle).remove();
       }
       localStorage.setItem('wishlist',JSON.stringify(wishlist));
     }
   });
 $(document).on('click', '.removeInWishlist', function(){
   var pro_handle = $(this).attr('data-handle');
-  var customer_id = $(this).attr('data-customerId');
-  var customer_email = $(this).attr('data-customerEmail');
-  var shop_url = $(this).attr('data-shopUrl').slice(8);
+  var customer_id = globoWishlistConfig.customerId;
+  var customer_email = globoWishlistConfig.customerEmail;
+  var shop_url = globoWishlistConfig.shopUrl;
   const product = {
     product : pro_handle,
     customer_id : globoWishlistConfig.customerId,
@@ -123,14 +204,22 @@ $(document).on('click', '.removeInWishlist', function(){
     type : 'wishlist',
     shop_url: globoWishlistConfig.shopUrl
   };
-  $.ajax({
-    url : globoWishlistConfig.api+"remove",
-    type : "post",
-    data : product
-  }).done(function(success){
-    alert(success.message);
-    location.reload();
-  });
+  if(customer_id == null){
+    wishlist  = JSON.parse(localStorage.getItem('wishlist'));
+    var index = wishlist.indexOf(pro_handle);
+    wishlist.splice(index,1);
+    localStorage.setItem('wishlist',JSON.stringify(wishlist));
+    $($($(this).parent()).parent()).remove();
+  }else{
+    $.ajax({
+      url : globoWishlistConfig.api+"remove",
+      type : "post",
+      data : product
+    }).done(function(success){
+      alert(success.message);
+      location.reload();
+    });
+  }
 });
 
 // recently_viewed    
@@ -178,7 +267,7 @@ if(globoWishlistConfig.customerId!=null){
 }else{
       recently_viewed  = JSON.parse(localStorage.getItem('recently_viewed'));
       for(var i=0;i<recently_viewed.length;i++){
-        jQuery.getJSON('/products/'+recently_viewed[i].product_handle+'.js', function(product) {
+        jQuery.getJSON("/products/"+recently_viewed[i].product_handle+".js", function(product) {
           var item = '<li class="mt-20"><div style="display: flex; flex-direction: row"><div class="width25"><img class="imgProductWishlist" id="pro'+product.id+'_img_1" src="'+product.images[0]+'"/></div><div class="width50"><h5>'+product.title+'</h5></div><div class="width25"><p>'+product.price+'</p></div></div></li>';
           $('#collectionRecentlyViewedlist').append(item);
         } );
@@ -234,8 +323,10 @@ if(globoWishlistConfig.customerId!=null){
           jQuery.getJSON('/products/'+products[i].product_handle+'.js', function(product) {
             jQuery.getJSON('/cart.js', function(carts) {
               var textToCart = globoWishlistConfig.carts_items.indexOf(product.id) != -1 ? '{{$addedToWishlist}}' : '{{$addToWishlist}}';
-              var item = '<tr><td style="display: {{$isDisplayImage}}"><img class="imgProductWishlist" id="'+product.handle+'_img_1" src="'+product.images[0]+'"/></td><td style="display: {{$isDisplayTitle}}">'+product.title+'</td><td style="display: {{$isDisplayPrice}}">'+product.price+'</td><td style="display: {{$isDisplayAction}}"><button data-variantId="'+product.variants[0].id+'" class="addToCartInWishlist mr-10">'+textToCart+'</button><button type="button" data-shopUrl="'+globoWishlistConfig.shopUrl+'" data-handle="'+product.handle+'" data-customerId="'+globoWishlistConfig.customerId+'" data-customerEmail="'+globoWishlistConfig.customerEmail+'"class="removeInWishlist">REMOVE</button></td></tr>'
+              var item = '<tr><td style="display: {{$isDisplayImage}}"><img class="imgProductWishlist" id="'+product.handle+'_img_1" src="'+product.images[0]+'"/></td><td style="display: {{$isDisplayTitle}}">'+product.title+'</td><td style="display: {{$isDisplayPrice}}">'+product.price+'</td><td style="display: {{$isDisplayAction}}"><button data-variantId="'+product.variants[0].id+'" class="addToCartInWishlist mr-10">'+textToCart+'</button><button type="button" data-shopUrl="'+globoWishlistConfig.shopUrl+'" data-handle="'+product.handle+'" data-customerId="'+globoWishlistConfig.customerId+'" data-customerEmail="'+globoWishlistConfig.customerEmail+'"class="removeInWishlist">REMOVE</button></td></tr>';
               $('#wishproductlist').append(item);
+              var item1 = '<li id='+"item-"+product.handle+' class="gl-item"> <div class="item-image"> <img src="'+product.images[0]+'"/> </div><div class="item-title">'+product.title+'</div></li>';
+              $('.gl-body').append(item1);
               $('.add_to_wishlist_icon_label button#buttonAddToWishlistIconLabel'+product.handle).html('<i class="fas fa-heart mr-10"></i>{{$addedToWishlist}}');
               $('.add_to_wishlist_label button#buttonAddToWishlistLabel'+product.handle).html('{{$addedToWishlist}}');
               var label = $('#buttonAddToWishlistLabel'+product.handle);
@@ -257,8 +348,10 @@ if(globoWishlistConfig.customerId!=null){
       for(var i=0;i<wishlist.length;i++){
         jQuery.getJSON('/products/'+wishlist[i]+'.js', function(product) {
             var textToCart = globoWishlistConfig.carts_items.indexOf(product.id) != -1 ? '{{$addedToCart}}' : '{{$addToCart}}';
-            var item = '<tr><td style="display: "><img class="imgProductWishlist" id="'+product.handle+'_img_1" src="'+product.images[0]+'"/></td><td style="display: ">'+product.title+'</td><td style="display: ">'+product.price+'</td><td style="display: "><button data-variantId="'+product.variants[0].id+'" class="addToCartInWishlist mr-10">'+textToCart+'</button><button type="button" data-shopUrl="'+globoWishlistConfig.shopUrl+'" data-handle="'+product.handle+'" data-customerId="'+globoWishlistConfig.customerId+'" data-customerEmail="'+globoWishlistConfig.customerEmail+'"class="removeInWishlist">REMOVE</button></td></tr>'
+            var item = '<tr><td style="display: "><img class="imgProductWishlist" id="'+product.handle+'_img_1" src="'+product.images[0]+'"/></td><td style="display: ">'+product.title+'</td><td style="display: ">'+product.price+'</td><td style="display: "><button data-variantId="'+product.variants[0].id+'" class="addToCartInWishlist mr-10">'+textToCart+'</button><button type="button" data-shopUrl="'+globoWishlistConfig.shopUrl+'" data-handle="'+product.handle+'" data-customerId="'+globoWishlistConfig.customerId+'" data-customerEmail="'+globoWishlistConfig.customerEmail+'"class="removeInWishlist">REMOVE</button></td></tr>';
+            var item1 = '<li id='+"item-"+product.handle+' class="gl-item"> <div class="item-image"> <img src="'+product.images[0]+'"/> </div><div class="item-title">'+product.title+'</div></li>';
             $('#wishproductlist').append(item);
+            $('.gl-body').append(item1);
             $('.add_to_wishlist_icon_label button#buttonAddToWishlistIconLabel'+product.handle).html('<i class="fas fa-heart mr-10"></i>{{$addedToCart}}');
             $('.add_to_wishlist_label button#buttonAddToWishlistLabel'+product.handle).html('{{$addedToCart}}');
             var label = $('#buttonAddToWishlistLabel'+product.handle);
